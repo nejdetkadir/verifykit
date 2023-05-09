@@ -5,7 +5,15 @@ require 'logger'
 require 'dry-configurable'
 require 'dry/configurable/test_interface'
 
-loader = Zeitwerk::Loader.for_gem
+loader = Zeitwerk::Loader.for_gem.tap do |l|
+  l.inflector.inflect(
+    'sms' => 'SMS',
+    'Sms' => 'SMS',
+    'whatsapp' => 'WhatsApp',
+    'Whatsapp' => 'WhatsApp'
+  )
+end
+
 loader.setup
 
 module VerifyKit

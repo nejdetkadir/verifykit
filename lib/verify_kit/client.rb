@@ -25,6 +25,14 @@ module VerifyKit
       end
     end
 
+    def sms
+      VerifyKit::Resources::SMS.new(self)
+    end
+
+    def whatsapp
+      VerifyKit::Resources::WhatsApp.new(self)
+    end
+
     private
 
     def connection_url

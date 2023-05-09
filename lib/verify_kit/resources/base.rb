@@ -12,8 +12,10 @@ module VerifyKit
         connection.get(url, params, headers)
       end
 
-      def post_request(url, body:, headers: {})
-        connection.post(url, body, headers)
+      def post_request(url, body:, headers: {}, params: {})
+        connection.post(url, body, headers) do |req|
+          req.params = params
+        end
       end
 
       def patch_request(url, body:, headers: {})
@@ -29,7 +31,13 @@ module VerifyKit
       end
 
       def error_response(response)
-        # ...
+        error_response = VerifyKit::Responses::Error.new(response.body)
+        Failure(error_response)
+      end
+
+      def success_response(response)
+        success_response = VerifyKit::Responses::Success.new(response.body)
+        Success(success_response)
       end
     end
   end
